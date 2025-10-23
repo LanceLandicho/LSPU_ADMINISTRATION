@@ -1,0 +1,237 @@
+{% extends "index.html" %} {% block main_content %}
+<div class="space-y-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold tracking-tight">Grades Management</h1>
+      <p class="text-muted-foreground">View and manage student grades</p>
+    </div>
+    <button
+      class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-download mr-2 h-4 w-4"
+      >
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" x2="12" y1="15" y2="3"></line></svg
+      >Export Grades
+    </button>
+  </div>
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+    <div class="flex flex-col space-y-1.5 p-6">
+      <div class="flex items-center gap-4">
+        <div class="relative flex-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-search absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path></svg
+          ><input
+            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm pl-10"
+            placeholder="Search by student name or ID..."
+          />
+        </div>
+      </div>
+    </div>
+    <div class="p-6 pt-0">
+      <div class="relative w-full overflow-auto">
+        <table class="w-full caption-bottom text-sm">
+          <thead class="[&amp;_tr]:border-b">
+            <tr
+              class="border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50"
+            >
+              <th
+                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+              >
+                Student Name
+              </th>
+              <th
+                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+              >
+                Student ID
+              </th>
+              <th
+                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+              >
+                Course
+              </th>
+              <th
+                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+              >
+                Midterm
+              </th>
+              <th
+                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+              >
+                Final
+              </th>
+              <th
+                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+              >
+                Grade
+              </th>
+              <th
+                class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+              >
+                Remarks
+              </th>
+            </tr>
+          </thead>
+          <tbody class="[&amp;_tr:last-child]:border-0">
+            <tr
+              class="border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50"
+            >
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                Juan Dela Cruz
+              </td>
+              <td
+                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
+              >
+                2024-001
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                CS-101
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                88
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                92
+              </td>
+              <td
+                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-bold"
+              >
+                1.5
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                <div
+                  class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80"
+                >
+                  Passed
+                </div>
+              </td>
+            </tr>
+            <tr
+              class="border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50"
+            >
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                Maria Santos
+              </td>
+              <td
+                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
+              >
+                2024-002
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                IT-201
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                95
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                96
+              </td>
+              <td
+                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-bold"
+              >
+                1
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                <div
+                  class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80"
+                >
+                  Passed
+                </div>
+              </td>
+            </tr>
+            <tr
+              class="border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50"
+            >
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                Pedro Reyes
+              </td>
+              <td
+                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
+              >
+                2024-003
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                CE-301
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                82
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                85
+              </td>
+              <td
+                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-bold"
+              >
+                2
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                <div
+                  class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80"
+                >
+                  Passed
+                </div>
+              </td>
+            </tr>
+            <tr
+              class="border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50"
+            >
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                Ana Garcia
+              </td>
+              <td
+                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
+              >
+                2024-004
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                AG-101
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                90
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                88
+              </td>
+              <td
+                class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-bold"
+              >
+                1.75
+              </td>
+              <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                <div
+                  class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80"
+                >
+                  Passed
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock main_content %}

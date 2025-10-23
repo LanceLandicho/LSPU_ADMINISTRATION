@@ -1,0 +1,331 @@
+
+{% extends "index.html" %}
+{% block main_content %}
+<div class="space-y-6">
+  <div>
+    <h1 class="text-3xl font-bold tracking-tight">Dashboard</h1>
+    <p class="text-muted-foreground">Welcome to LSPU Administration Portal</p>
+  </div>
+  <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+      <div
+        class="p-6 flex flex-row items-center justify-between space-y-0 pb-2"
+      >
+        <h3 class="tracking-tight text-sm font-medium">Total Students</h3>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-users h-4 w-4 text-muted-foreground"
+        >
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </div>
+      <div class="p-6 pt-0">
+        <div class="text-2xl font-bold">2,847</div>
+        <p class="text-xs text-accent">+12% from last semester</p>
+      </div>
+    </div>
+    <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+      <div
+        class="p-6 flex flex-row items-center justify-between space-y-0 pb-2"
+      >
+        <h3 class="tracking-tight text-sm font-medium">Faculty Members</h3>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-graduation-cap h-4 w-4 text-muted-foreground"
+        >
+          <path
+            d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"
+          ></path>
+          <path d="M22 10v6"></path>
+          <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
+        </svg>
+      </div>
+      <div class="p-6 pt-0">
+        <div class="text-2xl font-bold">186</div>
+        <p class="text-xs text-accent">+3 new hires</p>
+      </div>
+    </div>
+    <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+      <div
+        class="p-6 flex flex-row items-center justify-between space-y-0 pb-2"
+      >
+        <h3 class="tracking-tight text-sm font-medium">Active Courses</h3>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-book-open h-4 w-4 text-muted-foreground"
+        >
+          <path d="M12 7v14"></path>
+          <path
+            d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
+          ></path>
+        </svg>
+      </div>
+      <div class="p-6 pt-0">
+        <div class="text-2xl font-bold">124</div>
+        <p class="text-xs text-destructive">8 pending approval</p>
+      </div>
+    </div>
+    <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+      <div
+        class="p-6 flex flex-row items-center justify-between space-y-0 pb-2"
+      >
+        <h3 class="tracking-tight text-sm font-medium">Enrollment Rate</h3>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-trending-up h-4 w-4 text-muted-foreground"
+        >
+          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+          <polyline points="16 7 22 7 22 13"></polyline>
+        </svg>
+      </div>
+      <div class="p-6 pt-0">
+        <div class="text-2xl font-bold">94.2%</div>
+        <p class="text-xs text-accent">+5.2% increase</p>
+      </div>
+    </div>
+  </div>
+  <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+    <div
+      class="rounded-lg border bg-card text-card-foreground shadow-sm col-span-4"
+    >
+      <div class="flex flex-col space-y-1.5 p-6">
+        <h3 class="text-2xl font-semibold leading-none tracking-tight">
+          Recent Enrollments
+        </h3>
+      </div>
+      <div class="p-6 pt-0">
+        <div class="relative w-full overflow-auto">
+          <table class="w-full caption-bottom text-sm">
+            <thead class="[&amp;_tr]:border-b">
+              <tr
+                class="border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50"
+              >
+                <th
+                  class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+                >
+                  Student ID
+                </th>
+                <th
+                  class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+                >
+                  Name
+                </th>
+                <th
+                  class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+                >
+                  Course
+                </th>
+                <th
+                  class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0"
+                >
+                  Date
+                </th>
+              </tr>
+            </thead>
+            <tbody class="[&amp;_tr:last-child]:border-0">
+              <tr
+                class="border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50"
+              >
+                <td
+                  class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
+                >
+                  2024-001
+                </td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                  Juan Dela Cruz
+                </td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                  BS Computer Science
+                </td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                  2024-01-15
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50"
+              >
+                <td
+                  class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
+                >
+                  2024-002
+                </td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                  Maria Santos
+                </td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                  BS Information Technology
+                </td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                  2024-01-15
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50"
+              >
+                <td
+                  class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
+                >
+                  2024-003
+                </td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                  Pedro Reyes
+                </td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                  BS Civil Engineering
+                </td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                  2024-01-14
+                </td>
+              </tr>
+              <tr
+                class="border-b transition-colors data-[state=selected]:bg-muted hover:bg-muted/50"
+              >
+                <td
+                  class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0 font-medium"
+                >
+                  2024-004
+                </td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                  Ana Garcia
+                </td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                  BS Agriculture
+                </td>
+                <td class="p-4 align-middle [&amp;:has([role=checkbox])]:pr-0">
+                  2024-01-14
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div
+      class="rounded-lg border bg-card text-card-foreground shadow-sm col-span-3"
+    >
+      <div class="flex flex-col space-y-1.5 p-6">
+        <h3 class="text-2xl font-semibold leading-none tracking-tight">
+          Quick Actions
+        </h3>
+      </div>
+      <div class="p-6 pt-0 space-y-2">
+        <button
+          class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full justify-start"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-users mr-2 h-4 w-4"
+          >
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg
+          >Add New Student</button
+        ><button
+          class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full justify-start"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-graduation-cap mr-2 h-4 w-4"
+          >
+            <path
+              d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"
+            ></path>
+            <path d="M22 10v6"></path>
+            <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg
+          >Register Faculty</button
+        ><button
+          class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full justify-start"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-book-open mr-2 h-4 w-4"
+          >
+            <path d="M12 7v14"></path>
+            <path
+              d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"
+            ></path></svg
+          >Create Course</button
+        ><button
+          class="inline-flex items-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full justify-start"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-trending-up mr-2 h-4 w-4"
+          >
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+            <polyline points="16 7 22 7 22 13"></polyline></svg
+          >Generate Report
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock main_content %}
