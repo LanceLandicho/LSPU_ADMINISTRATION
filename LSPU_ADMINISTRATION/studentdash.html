@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <style>
+    /* 🌐 GENERAL STYLES */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+
+    :root {
+      --bg: #f5f5f5;
+      --text: #222;
+      --header: #fff;
+      --sidebar: #222;
+      --card: #fff;
+      --hover: #333;
+      --accent: #f39c12;
+    }
+
+    body.dark {
+      --bg: #181818;
+      --text: #f5f5f5;
+      --header: #222;
+      --sidebar: #111;
+      --card: #242424;
+      --hover: #333;
+    }
+
+    /* 🧭 HEADER */
+    header {
+      height: 100px;
+      background: var(--header);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+ .header-logo {
+  width: 95px;
+  height: 95px;
+  margin-right: 10px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+
+    .menu-toggle {
+      font-size: 30px;
+      cursor: pointer;
+      color: var(--text);
+      margin-left: 20px;
+    }
+
+    .right-icons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .icon {
+      font-size: 20px;  
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .icon:hover {
+      transform: scale(1.1);
+    }
+
+    /* 👤 PROFILE DROPDOWN */
+    .profile-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .profile-container img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid black;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 100px;
+      right: 0;
+      background: var(--header);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      overflow: hidden;
+      width: 180px;
+      display: none;
+      z-index: 200;
+    }
+
+    .dropdown.active {
+      display: block;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 12px 15px;
+      text-decoration: none;
+      color: var(--text);
+      transition: background 0.3s;
+    }
+
+    .dropdown a:hover {
+      background: var(--bg);
+    }
+
+/* 🔔 NOTIFICATION DROPDOWN */
+.notif-container {
+  position: relative;
+}
+
+.notif-dropdown {
+  position: absolute;
+  top: 70px;
+  right: 40px;
+  background: var(--header);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  width: 260px;
+  display: none;
+  z-index: 200;
+  overflow: hidden;
+}
+
+.notif-dropdown.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+.notif-dropdown h4 {
+  background: var(--accent);
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.notif-dropdown ul {
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.notif-dropdown ul li {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.notif-dropdown ul li:last-child {
+  border-bottom: none;
+}
+
+.notif-dropdown ul li:hover {
+  background: var(--bg);
+}
+
+
+
+
+
+
+
+    /* 📚 SIDEBAR */
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background: var(--sidebar);
+      position: fixed;
+      top: 30px;
+      left: -250px;
+      padding-top: 80px;
+      transition: left 0.3s ease;
+      color: #fff;
+      z-index: 99;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li a {
+      display: block;
+      padding: 15px 20px;
+      color: #ccc;
+      text-decoration: none;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .sidebar ul li a:hover, 
+    .sidebar ul li a.active {
+      background: var(--hover);
+      color: #fff;
+    }
+
+    /* 📄 MAIN CONTENT */
+    .main {
+      margin-top: 70px;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar.active ~ .main {
+      margin-left: 250px;
+    }
+
+    /* 🪟 PANEL CONTAINER */
+    .panel-container {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      min-height: 400px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .panel-container.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* 📋 PROFILE PANEL DESIGN */
+    .profile-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .profile-picture {
+      text-align: center;
+     
+    }
+
+   .profile-picture img {
+  width: 300px;
+  height: 120px;
+  object-fit: cover;
+  border: 2px solid black;
+  border-radius: 100%;
+  margin-bottom: 0;
+}
+
+
+    .profile-picture button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 6px;
+      background:var(--accent);
+      color: white;
+      cursor: pointer;
+    }
+
+    .profile-picture button:hover {
+      opacity: 0.9;
+    }
+
+    .profile-details, .personal-info {
+      width: 100%;
+      max-width: 600px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 20px;
+      margin-top: 20px;
+    }
+
+    .profile-details label, .personal-info label {
+      font-weight: 500;
+    }
+
+    .profile-details input, 
+    .profile-details select,
+    .personal-info input, 
+    .personal-info select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+    }
+
+    .section-title {
+      width: 100%;
+      max-width: 600px;
+      margin-top: 30px;
+      font-size: 18px;
+      font-weight: 600;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 5px;
+      color: var(--text);
+    }
+    /* 🧮 GRADES TABLE */
+.grades-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: var(--card);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.grades-table th, .grades-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.grades-table th {
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+}
+
+.grades-table tr:hover {
+  background: var(--bg);
+  transition: 0.2s;
+}
+
+.grades-table td {
+  color: var(--text);
+}
+
+/* 👨‍🏫 TEACHERS TABLE */
+.teachers-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: var(--card);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.teachers-table th, .teachers-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.teachers-table th {
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+}
+
+.teachers-table tr:hover {
+  background: var(--bg);
+  transition: 0.2s;
+}
+
+.teachers-table td {
+  color: var(--text);
+}
+
+.teachers-table td:last-child {
+  font-style: italic;
+}
+
+
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+        left: -200px;
+      }
+      .sidebar.active {
+        left: 0;
+      }
+      .sidebar.active ~ .main {
+        margin-left: 0;
+      }
+      .profile-details, .personal-info {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 🔐 RESET PASSWORD FORM */
+.reset-password-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin-top: 20px;
+  gap: 15px;
+}
+
+.reset-password-form label {
+  font-weight: 500;
+  color: var(--text);
+}
+
+.reset-password-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+.reset-password-form input:focus {
+  border-color: var(--accent);
+}
+
+.reset-password-form button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.reset-password-form button:hover {
+  opacity: 0.9;
+}
+
+  </style>
+</head>
+<body>
+  <!-- 🔝 HEADER -->
+ <header>
+  <div class="left">
+    <img src="LSPU.jpg" alt="Logo" class="header-logo">
+    <span class="menu-toggle" id="menuToggle">&#9776;</span>
+  </div>
+
+
+    <div class="right-icons">
+
+
+      <span class="icon" id="notif">&#128276;</span>
+      <div class="notif-dropdown" id="notifDropdown">
+        <div class="notif-header">Messages</div>
+        <div class="notif-list">
+          <div class="notif-item">
+            📢 New announcement: Midterm exams next week!
+            <small>2 hours ago</small>
+          </div>
+          <div class="notif-item">
+            💰 Reminder: Tuition payment due this Friday.
+            <small>1 day ago</small>
+          </div>
+          <div class="notif-item">
+            🧾 Your grade report is now available.
+            <small>2 days ago</small>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      <span class="icon" id="themeToggle">&#9788;</span>
+
+      <div class="profile-container" id="profileBtn">
+        <img src="https://via.placeholder.com/36" alt="Profile">
+        <div class="dropdown" id="dropdownMenu">
+          <a href="#" id="openProfile">👤 My Profile</a>
+          <a href="#">Reset Password</a>
+          <a href="#">🚪 Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 🧭 SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <ul>
+      <li><a class="active" data-panel="dashboard">🏠 Dashboard</a></li>
+      <li><a data-panel="courses">📚 Courses</a></li>
+      <li><a data-panel="academic">🎓 Academic</a></li>
+      <li><a data-panel="grades">📝 Grades</a></li>
+      <li><a data-panel="instructors">👨‍🏫 Instructors</a></li>
+      <li><a data-panel="fees">💰 School Fees</a></li>
+      <li><a data-panel="mailbox">📬 Mailbox</a></li>
+    </ul>
+  </div>
+
+  <!-- 📄 MAIN CONTENT -->
+  <div class="main">
+    <!-- Dashboard -->
+    <div class="panel-container active" id="dashboard">
+      <h2>🏠 Dashboard</h2>
+      <p>Welcome to your student dashboard! Here you can see your announcements, recent grades, and updates.</p>
+    </div>
+
+    <!-- Courses -->
+    <div class="panel-container" id="courses">
+      <h2>📚 My Courses</h2>
+      <p>View and manage your enrolled courses here.</p>
+    </div>
+
+    <!-- Academic -->
+      <div class="panel-container" id="academic">
+    <h2>🎓 Academic</h2>
+    <p>View your academic status, achievements, and progress here.</p>
+    <ul>
+      <li><strong>Year Level:</strong> 3rd Year</li>
+      <li><strong>Section:</strong> BSCS 3A</li>
+      <li><strong>Status:</strong> Regular</li>
+      <li><strong>GPA:</strong> 1.75</li>
+    </ul>
+  </div>
+
+
+    <!-- Grades -->
+   <!-- Grades -->
+<div class="panel-container" id="grades">
+  <h2>📝 Report Card</h2>
+
+  <table class="grades-table">
+    <thead>
+      <tr>
+        <th>Course Code</th>
+        <th>Descriptive Title</th>
+        <th>Final Grade</th>
+        <th>Re-exam</th>
+        <th>Remarks</th>
+        <th>Units</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>CS301</td>
+        <td>Data Structures and Algorithms</td>
+        <td>1.75</td>
+        <td>—</td>
+        <td>Passed</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>CS302</td>
+        <td>Operating Systems</td>
+        <td>2.00</td>
+        <td>—</td>
+        <td>Passed</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>CS303</td>
+        <td>Database Management Systems</td>
+        <td>1.50</td>
+        <td>—</td>
+        <td>Passed</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>CS304</td>
+        <td>Software Engineering</td>
+        <td>2.25</td>
+        <td>2.00</td>
+        <td>Passed after Re-exam</td>
+        <td>3</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- Mailbox -->
+<div class="panel-container" id="mailbox">
+  <h2>📬 Mailbox</h2>
+  <p>View and manage your messages here.</p>
+
+  <table class="grades-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>From</th>
+        <th>Subject</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Oct 25, 2025</td>
+        <td>Registrar Office</td>
+        <td>Enrollment Confirmation</td>
+        <td>Read</td>
+      </tr>
+      <tr>
+        <td>Oct 24, 2025</td>
+        <td>Prof. Maria Santos</td>
+        <td>Upcoming Quiz Reminder</td>
+        <td>Unread</td>
+      </tr>
+      <tr>
+        <td>Oct 23, 2025</td>
+        <td>Finance Department</td>
+        <td>Tuition Payment Notice</td>
+        <td>Read</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+<!-- 🔐 RESET PASSWORD PANEL -->
+<div class="panel-container" id="resetPasswordPanel">
+  <h2>🔒 Reset Password</h2>
+  <p>Update your account password below.</p>
+
+  <form class="reset-password-form">
+    <label for="currentPass">Current Password</label>
+    <input type="password" id="currentPass" placeholder="Enter current password" required>
+
+    <label for="newPass">New Password</label>
+    <input type="password" id="newPass" placeholder="Enter new password" required>
+
+    <label for="confirmPass">Confirm New Password</label>
+    <input type="password" id="confirmPass" placeholder="Re-enter new password" required>
+
+    <button type="submit">Update Password</button>
+  </form>
+</div>
+
+
+
+    <!-- Instructors -->  
+   <!-- Instructors -->
+<div class="panel-container" id="instructors">
+  <h2>👨‍🏫 Teachers</h2>
+  <p>Meet your instructors and view their contact details below.</p>
+
+  <table class="teachers-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Designation</th>
+        <th>Department</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Prof. Maria Santos</td>
+        <td>Instructor I</td>
+        <td>College of Computer Studies</td>
+        <td>maria.santos@lspu.edu</td>
+      </tr>
+      <tr>
+        <td>Engr. Jose Dela Cruz</td>
+        <td>Assistant Professor</td>
+        <td>College of Computer Studies</td>
+        <td>jose.delacruz@lspu.edu</td>
+      </tr>
+      <tr>
+        <td>Dr. Karen Villanueva</td>
+        <td>Professor</td>
+        <td>College of Computer Studies</td>
+        <td>karen.villanueva@lspu.edu</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+    <!-- Fees -->
+    <div class="panel-container" id="fees">
+      <h2>💰 School Fees</h2>
+      <p>Check your payment history and outstanding balances.</p>
+    </div>
+
+  
+   
+    <!-- 🧍 PROFILE PANEL -->
+    <div class="panel-container" id="profilePanel">
+      <h2>👤 Profile Edit</h2>
+      <div class="profile-panel">
+        <div class="profile-picture">
+          <img src="https://via.placeholder.com/120" alt="Profile Picture">
+          <br>
+          <button>Change Picture</button>
+        </div>
+
+        <!-- Academic Information -->
+        <div class="section-title">🎓 Academic Information</div>
+        <div class="profile-details">
+          <label>Academic Year</label>
+          <input type="text" placeholder="e.g. 2025-2026">
+
+          <label>Student Number</label>
+          <input type="text" placeholder="e.g. 202512345">
+
+          <label>LRN</label>
+          <input type="text" placeholder="Enter LRN">
+
+          <label>Admission Date</label>
+          <input type="date">
+
+          <label>Branch</label>
+          <input type="text" placeholder="e.g. Main Campus">
+
+          <label>Satellite</label>
+          <input type="text" placeholder="e.g. Downtown">
+
+          <label>College</label>
+          <input type="text" placeholder="e.g. CCS">
+
+          <label>Course</label>
+          <input type="text" placeholder="e.g. BS Computer Science">
+
+          <label>Year Level</label>
+          <select>
+            <option>1st Year</option>
+            <option>2nd Year</option>
+            <option>3rd Year</option>
+            <option>4th Year</option>
+          </select>
+
+          <label>Semester</label>
+          <select>
+            <option>1st Semester</option>
+            <option>2nd Semester</option>
+            <option>Summer</option>
+          </select>
+
+          <label>Section</label>
+          <input type="text" placeholder="e.g. BSCS 3A">
+        </div>
+
+        <!-- 🧍 PERSONAL INFORMATION -->
+        <div class="section-title">🧾 Personal Information</div>
+        <div class="personal-info">
+          <label>First Name</label>
+          <input type="text" placeholder="Enter first name">
+
+          <label>Last Name</label>
+          <input type="text" placeholder="Enter last name">
+
+          <label>Middle Name</label>
+          <input type="text" placeholder="Enter middle name">
+
+          <label>Extension Name</label>
+          <input type="text" placeholder="e.g. Jr., Sr., III">
+
+          <label>Mobile No.</label>
+          <input type="text" placeholder="e.g. 09123456789">
+
+          <label>Email</label>
+          <input type="email" placeholder="e.g. you@example.com">
+
+          <label>Sex</label>
+          <select>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Prefer not to say</option>
+          </select>
+
+          <label>Blood Group</label>
+          <select>
+            <option>A+</option>
+            <option>A-</option>
+            <option>B+</option>
+            <option>B-</option>
+            <option>O+</option>
+            <option>O-</option>
+            <option>AB+</option>
+            <option>AB-</option>
+          </select>
+
+          <label>Birthday</label>
+          <input type="date">
+        </div>
+
+                <!-- 🏠 COMPLETE ADDRESS -->
+        <div class="section-title">🏠 Complete Address</div>
+        <div class="personal-info">
+        <label>House Number</label>
+        <input type="text" placeholder="Enter house number">
+
+        <label>Street</label>
+        <input type="text" placeholder="Enter street name">
+
+        <label>Barangay</label>
+        <input type="text" placeholder="Enter barangay">
+
+        <label>City / Municipality</label>
+        <input type="text" placeholder="Enter city or municipality">
+
+        <label>Province</label>
+        <input type="text" placeholder="Enter province">
+
+        <label>Zip Code</label>
+        <input type="text" placeholder="Enter zip code">
+        </div>
+
+         <div class="section-title">🗂 Other Information</div>
+            <div class="personal-info">
+            <label>DSWD Household No.</label>
+            <input type="text" placeholder="Enter DSWD Household Number">
+
+            <label>Household Per Capita Income</label>
+            <input type="text" placeholder="Enter household per capita income">
+
+            <label>Disability</label>
+            <input type="text" placeholder="Specify if applicable">
+
+            <label>No. of Siblings</label>
+            <input type="number" placeholder="Enter number of siblings">
+            </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⚙️ SCRIPT -->
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    const profileBtn = document.getElementById('profileBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const sidebarLinks = document.querySelectorAll('.sidebar ul li a');
+    const panels = document.querySelectorAll('.panel-container');
+    const openProfile = document.getElementById('openProfile');
+    const profilePanel = document.getElementById('profilePanel');
+    const notif = document.getElementById('notif');
+    const notifDropdown = document.getElementById('notifDropdown');
+
+
+        notif.addEventListener('click', (e) => {
+      e.stopPropagation();
+      notifDropdown.classList.toggle('active');
+      dropdownMenu.classList.remove('active'); // close profile dropdown if open
+    });
+
+    // Close notification dropdown when clicking outside
+    window.addEventListener('click', (e) => {
+      if (!notif.contains(e.target)) {
+        notifDropdown.classList.remove('active');
+      }
+    });
+
+
+    // Toggle sidebar
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    // Toggle dark/light mode
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      themeToggle.textContent = body.classList.contains('dark') ? '🌙' : '☀️';
+    });
+
+    // Open Reset Password panel
+const resetPasswordLink = document.querySelector('#dropdownMenu a:nth-child(2)');
+const resetPasswordPanel = document.getElementById('resetPasswordPanel');
+
+resetPasswordLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  dropdownMenu.classList.remove('active');
+  panels.forEach(p => p.classList.remove('active'));
+  resetPasswordPanel.classList.add('active');
+});
+
+
+    // Toggle profile dropdown
+    profileBtn.addEventListener('click', () => {
+      dropdownMenu.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking outside
+    window.addEventListener('click', (e) => {
+      if (!profileBtn.contains(e.target)) {
+        dropdownMenu.classList.remove('active');
+      }
+    });
+
+    sidebarLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    const targetPanel = link.getAttribute('data-panel');
+    panels.forEach(p => p.classList.remove('active'));
+    document.getElementById(targetPanel).classList.add('active');
+  });
+});
+
+
+    // Sidebar navigation — switch panels
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const targetPanel = link.getAttribute('data-panel');
+
+        sidebarLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+
+        panels.forEach(p => p.classList.remove('active'));
+        document.getElementById(targetPanel).classList.add('active');
+
+        if (window.innerWidth <= 768) {
+          sidebar.classList.remove('active');
+        }
+      });
+    });
+
+    // Open Profile panel from dropdown
+    openProfile.addEventListener('click', (e) => {
+      e.preventDefault();
+      dropdownMenu.classList.remove('active');
+      panels.forEach(p => p.classList.remove('active'));
+      profilePanel.classList.add('active');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LSPU Login</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('lspubg.jpg') no-repeat center center/cover;
+      filter: blur(2px);
+      transform: scale(1.1);
+      z-index: -1;
+    }
+
+    .container {
+      background: #fff;
+      width: 85%;
+      max-width: 1100px;
+      display: flex;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    /* LEFT SIDE */
+    .left-side {
+      flex: 1;
+      background: rgba(205, 199, 199, 0.228);
+      text-align: center;
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0px 100px 100px 0px;
+    }
+
+    .logo-container img {
+      width: 200px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+    }
+
+    .system-title {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: black;
+      font-family: "Zilla Slab", serif;
+    }
+
+    /* RIGHT SIDE */
+    .right-side {
+      flex: 1;
+      padding: 40px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .welcome {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .welcome h2 {
+      color: black;
+      margin-bottom: 5px;
+    }
+
+    /* TOGGLE BUTTONS */
+    .toggle-buttons {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 25px;
+      border-radius: 50px;
+      overflow: hidden;
+      background: #f8f3f0;
+      transition: 0.3s ease;
+    }
+
+    .toggle-buttons.hidden {
+      display: none;
+    }
+
+    .toggle-buttons button {
+      flex: 1;
+      padding: 12px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 1rem;
+      background: transparent;
+      color: black;
+    }
+
+    .toggle-buttons button.active {
+      background: forestgreen;
+      color: #fff;
+    }
+
+    /* FORMS */
+    .form {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .form.active {
+      display: block;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 12px;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 5px;
+      font-size: 1rem;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .form-options a {
+      text-decoration: none;
+      color: blue;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: green;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 1rem;
+    }
+
+    .submit-btn:hover {
+      background-color: forestgreen;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .container { flex-direction: column; width: 95%; height: auto; margin: 20px 0; }
+      .left-side { width: 100%; padding: 40px 20px; }
+      .right-side { width: 100%; padding: 30px 25px; }
+      .logo-container img { width: 100px; }
+    }
+
+    @media (max-width: 500px) {
+      .toggle-buttons { max-width: 320px; margin: 0 auto 20px auto; }
+      .toggle-buttons button.active { background: green; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- LEFT SIDE -->
+    <div class="left-side">
+      <div class="logo-container">
+        <img src="LSPU.jpg" alt="SBO Logo">
+      </div>
+      <h1 class="system-title">SIGN IN TO YOUR <br>LSPU ACCOUNT</h1>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right-side" id="right-side">
+      <div class="welcome">
+        <h2>LSPU ONLINE PORTAL</h2>
+        <p>INTEGRITY • PROFESSIONALISM • INNOVATION</p>
+      </div>
+
+      <div class="toggle-buttons" id="toggleButtons">
+        <button id="loginBtn" class="active">Login</button>
+        <button id="signupBtn">Sign Up</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="loginForm" class="form active">
+        <h3>Login to Your Account</h3>
+        <form>
+          <label>Email</label>
+          <input type="text" placeholder="Enter your email" required>
+
+          <label>Password</label>
+          <input type="password" placeholder="Enter your password" required>
+
+          <div class="form-options">
+            <label><input type="checkbox"> Remember me</label>
+            <a id="forgotPassword">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="submit-btn">LOG IN</button>
+        </form>
+      </div>
+
+      <!-- SIGNUP FORM -->
+      <div id="signupForm" class="form">
+        <h3>Create Your Account</h3>
+        <form>
+          <label>Full Name</label>
+          <input type="text" placeholder="Enter your name" required>
+
+          <label>Email</label>
+          <input type="email" placeholder="Enter your email" required>
+
+          <label>Password</label>
+          <input type="password" placeholder="Create a password" required>
+
+          <button type="submit" class="submit-btn">REGISTER</button>
+        </form>
+      </div>
+
+      <!-- FORGOT PASSWORD FORM -->
+      <div id="forgotForm" class="form">
+        <h3>Forgot Password?</h3>
+        <form>
+          <p style="font-size:0.95rem;margin-bottom:10px;">Enter your email to receive an OTP code.</p>
+          <label>Email</label>
+          <input type="email" placeholder="Enter your email" required>
+          <button type="button" class="submit-btn">Send OTP Code</button>
+        </form>
+      </div>
+
+      <footer>
+        <p>© 2025 Laguna State Polytechnic University</p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const forgotForm = document.getElementById('forgotForm');
+    const forgotLink = document.getElementById('forgotPassword');
+    const toggleButtons = document.getElementById('toggleButtons');
+
+    loginBtn.addEventListener('click', () => {
+      loginBtn.classList.add('active');
+      signupBtn.classList.remove('active');
+      loginForm.classList.add('active');
+      signupForm.classList.remove('active');
+      forgotForm.classList.remove('active');
+      toggleButtons.classList.remove('hidden');
+    });
+
+    signupBtn.addEventListener('click', () => {
+      signupBtn.classList.add('active');
+      loginBtn.classList.remove('active');
+      signupForm.classList.add('active');
+      loginForm.classList.remove('active');
+      forgotForm.classList.remove('active');
+      toggleButtons.classList.remove('hidden');
+    });
+
+    forgotLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      loginForm.classList.remove('active');
+      signupForm.classList.remove('active');
+      forgotForm.classList.add('active');
+      toggleButtons.classList.add('hidden'); // ✅ Hide login/signup buttons
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    /* 🌐 GENERAL STYLES */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      transition: all 0.3s ease;
+    }
+
+    :root {
+      --bg: #f5f5f5;
+      --text: #222;
+      --header: #ffffff;
+      --sidebar: #1c1c1c;
+      --card: #fff;
+      --hover: #333;
+      --accent: #e67e22;
+    }
+
+    body.dark {
+      --bg: #181818;
+      --text: #f5f5f5;
+      --header: #222;
+      --sidebar: #111;
+      --card: #242424;
+      --hover: #333;
+    }
+
+    /* 🧭 HEADER */
+    header {
+      height: 90px;
+      background: var(--header);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .header-logo {
+      width: 70px;
+      height: 70px;
+      margin-right: 10px;
+      object-fit: contain;
+      vertical-align: middle;
+    }
+
+    .menu-toggle {
+      font-size: 30px;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .right-icons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .icon {
+      font-size: 22px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      color: var(--text);
+    }
+
+    .icon:hover {
+      transform: scale(1.1);
+    }
+
+    /* 🔔 NOTIFICATION DROPDOWN */
+    .notif-container {
+      position: relative;
+    }
+
+    .notif-dropdown {
+      position: absolute;
+      top: 70px;
+      right: 40px;
+      background: var(--header);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      width: 260px;
+      display: none;
+      z-index: 200;
+      overflow: hidden;
+    }
+
+    .notif-dropdown.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .notif-dropdown h4 {
+      background: var(--accent);
+      color: white;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .notif-dropdown ul {
+      list-style: none;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .notif-dropdown ul li {
+      padding: 10px 15px;
+      border-bottom: 1px solid #ddd;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .notif-dropdown ul li:last-child {
+      border-bottom: none;
+    }
+
+    .notif-dropdown ul li:hover {
+      background: var(--bg);
+    }
+
+
+    .dropdown {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      background: var(--header);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      overflow: hidden;
+      width: 180px;
+      display: none;
+      z-index: 200;
+    }
+
+    .dropdown.active {
+      display: block;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 12px 15px;
+      text-decoration: none;
+      color: var(--text);
+      transition: background 0.3s;
+    }
+
+    .dropdown a:hover {
+      background: var(--bg);
+    }
+
+    /* 📚 SIDEBAR */
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background: var(--sidebar);
+      position: fixed;
+      top: 90px;
+      left: -250px;
+      padding-top: 40px;
+      transition: left 0.3s ease;
+      color: #fff;
+      z-index: 99;
+      border-radius: 0 50px 0 50px;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li a {
+      display: block;
+      padding: 15px 20px;
+      color: #ccc;
+      text-decoration: none;
+      transition: 0.3s;
+      cursor: pointer;
+      font-size: larger;
+    
+    }
+
+    .sidebar ul li a:hover, 
+    .sidebar ul li a.active {
+      background: var(--hover);
+      color: #fff;
+    }
+
+    /* 📄 MAIN CONTENT */
+    .main {
+      margin-top: 100px;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar.active ~ .main {
+      margin-left: 250px;
+    }
+
+    /* 🪟 PANEL CONTAINER */
+    .panel-container {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      min-height: 400px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .panel-container.active {
+      display: block;
+    }
+
+    /* 🧾 STUDENT TABLE */
+    .search-bar {
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .search-bar input {
+      padding: 8px 12px;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+    }
+
+            /* 💰 PAYMENTS STYLING */
+        .payment-declaration {
+        background: var(--card);
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .payment-declaration h3 {
+        margin-bottom: 10px;
+        color: var(--accent);
+        }
+
+        .declaration-list {
+        list-style: none;
+        margin-top: 10px;
+        }
+
+        .declaration-list li {
+        margin-bottom: 8px;
+        background: var(--bg);
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 15px;
+        }
+
+        .paid-students {
+        margin-top: 20px;
+        }
+
+        .paid-students h3 {
+        color: var(--accent);
+        margin-bottom: 10px;
+        }
+
+
+        /* ✏️ Editable Declarations Section */
+        .add-declaration {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        }
+
+        .add-declaration input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        outline: none;
+        font-size: 15px;
+        }
+
+        .add-declaration button {
+        background-color: var(--accent);
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.3s;
+        }
+
+        .add-declaration button:hover {
+        background-color: #a31b1b;
+        }
+
+        .declaration-list {
+        list-style: none;
+        margin-top: 15px;
+        padding: 0;
+        }
+
+        .declaration-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--bg);
+        padding: 10px 12px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        font-size: 15px;
+        }
+
+        .delete-btn {
+        background: transparent;
+        border: none;
+        color: #d00;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+        }
+
+        .delete-btn:hover {
+        color: #ff0000;
+        }
+
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--accent);
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+        left: -200px;
+      }
+      .sidebar.active {
+        left: 0;
+      }
+      .sidebar.active ~ .main {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 🔝 HEADER -->
+  <header>
+    <div class="left">
+      <img src="LSPU.jpg" alt="Logo" class="header-logo">
+      <span class="menu-toggle" id="menuToggle">&#9776;</span>
+    </div>
+
+    <div class="right-icons">
+      <span class="icon" id="notif">&#128276;</span>
+      <div class="notif-dropdown" id="notifDropdown">
+        <h4>Notifications</h4>
+        <ul>
+          <li>📢 System maintenance scheduled for tomorrow</li>
+          <li>👩‍🎓 New student registration pending</li>
+          <li>💰 Payment reports updated</li>
+        </ul>
+      </div>
+
+      <span class="icon" id="themeToggle">&#9788;</span>
+
+        <div class="dropdown" id="dropdownMenu">
+          <a href="#">⚙️ Settings</a>
+          <a href="#">📄 Reports</a>
+          <a href="#">🚪 Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 🧭 SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <ul>
+      <li><a class="active" data-panel="dashboard">🏠 Dashboard</a></li>
+      <li><a data-panel="students">👩‍🎓 Students</a></li>
+      <li><a data-panel="payments">💰 Payments</a></li>
+    </ul>
+  </div>
+
+  <!-- 📄 MAIN CONTENT -->
+  <div class="main">
+    <div class="panel-container active" id="dashboard">
+      <h2>🏠 Dashboard</h2>
+      <p>Welcome, Admin! View overall statistics, announcements, and quick summaries here.</p>
+    </div>
+
+    <div class="panel-container" id="students">
+      <h2>👩‍🎓 Students</h2>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search student name or ID...">
+      </div>
+
+      <table id="studentTable">
+        <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Student ID</th>
+            <th>Email</th>
+            <th>Course</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Juan Dela Cruz</td>
+            <td>2025001</td>
+            <td>juan@example.com</td>
+            <td>BSCS</td>
+            <td>Active</td>
+          </tr>
+          <tr>
+            <td>Maria Santos</td>
+            <td>2025002</td>
+            <td>maria@example.com</td>
+            <td>BSIT</td>
+            <td>Inactive</td>
+          </tr>
+          <tr>
+            <td>Carlos Reyes</td>
+            <td>2025003</td>
+            <td>carlos@example.com</td>
+            <td>BSIS</td>
+            <td>Active</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  <div class="panel-container" id="payments">
+  <h2>💰 Payments</h2>
+
+  <!-- 🏫 Declaration Section -->
+  <div class="payment-declaration">
+    <h3>📢 Payment Declarations</h3>
+    <p>Below are the latest payment announcements and dues for students.</p>
+
+    <!-- ✏️ Add New Declaration -->
+    <div class="add-declaration">
+      <input type="text" id="declarationInput" placeholder="Enter new payment declaration...">
+      <button id="addDeclarationBtn">Add</button>
+    </div>
+
+    <ul class="declaration-list" id="declarationList">
+      <li>📅 <strong>October 30, 2025:</strong> Midterm Tuition Payment Due 
+        <button class="delete-btn">✖</button>
+      </li>
+      <li>🏫 <strong>November 5, 2025:</strong> Laboratory Fees for BSCS & BSIT Students 
+        <button class="delete-btn">✖</button>
+      </li>
+      <li>🎓 <strong>December 10, 2025:</strong> Graduation Clearance Payment 
+        <button class="delete-btn">✖</button>
+      </li>
+    </ul>
+  </div>
+
+  <hr style="margin: 25px 0; border: 1px solid #ddd;">
+
+  <!-- 💳 Paid Students Section -->
+  <div class="paid-students">
+    <h3>✅ Paid Students List</h3>
+    <div class="search-bar">
+      <input type="text" id="paidSearch" placeholder="Search paid students...">
+    </div>
+
+    <table id="paidTable">
+      <thead>
+        <tr>
+          <th>Full Name</th>
+          <th>Student ID</th>
+          <th>Course</th>
+          <th>Amount Paid</th>
+          <th>Date Paid</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Juan Dela Cruz</td>
+          <td>2025001</td>
+          <td>BSCS</td>
+          <td>₱15,000</td>
+          <td>Oct 20, 2025</td>
+          <td><span style="color: green; font-weight: bold;">Paid</span></td>
+        </tr>
+        <tr>
+          <td>Maria Santos</td>
+          <td>2025002</td>
+          <td>BSIT</td>
+          <td>₱14,500</td>
+          <td>Oct 22, 2025</td>
+          <td><span style="color: green; font-weight: bold;">Paid</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+  <!-- ⚙️ SCRIPT -->
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const sidebarLinks = document.querySelectorAll('.sidebar ul li a');
+    const panels = document.querySelectorAll('.panel-container');
+    const notif = document.getElementById('notif');
+    const notifDropdown = document.getElementById('notifDropdown');
+
+    // Sidebar toggle
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+    });
+
+    // Dark/Light mode toggle
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      themeToggle.textContent = body.classList.contains('dark') ? '🌙' : '☀️';
+    });
+
+    // Notification dropdown
+    notif.addEventListener('click', (e) => {
+      e.stopPropagation();
+      notifDropdown.classList.toggle('active');
+      dropdownMenu.classList.remove('active');
+    });
+
+    window.addEventListener('click', (e) => {
+      if (!notif.contains(e.target)) notifDropdown.classList.remove('active');
+    });
+
+  
+    // Sidebar navigation
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const targetPanel = link.getAttribute('data-panel');
+        sidebarLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        panels.forEach(p => p.classList.remove('active'));
+        document.getElementById(targetPanel).classList.add('active');
+      });
+    });
+
+    // 🔍 Search Filter for Paid Students
+        const paidSearch = document.getElementById('paidSearch');
+        const paidTable = document.getElementById('paidTable');
+
+        paidSearch.addEventListener('keyup', function() {
+        const filter = this.value.toLowerCase();
+        const rows = paidTable.getElementsByTagName('tr');
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let found = false;
+            for (let j = 0; j < cells.length; j++) {
+            if (cells[j].textContent.toLowerCase().includes(filter)) {
+                found = true;
+                break;
+            }
+            }
+            rows[i].style.display = found ? '' : 'none';
+        }
+        });
+
+                // ✏️ Add & Delete Declarations
+        const declarationInput = document.getElementById("declarationInput");
+        const addDeclarationBtn = document.getElementById("addDeclarationBtn");
+        const declarationList = document.getElementById("declarationList");
+
+        addDeclarationBtn.addEventListener("click", () => {
+        const text = declarationInput.value.trim();
+        if (text === "") {
+            alert("Please enter a declaration before adding.");
+            return;
+        }
+
+        // Create new list item
+        const li = document.createElement("li");
+        li.innerHTML = `${text} <button class="delete-btn">✖</button>`;
+        declarationList.appendChild(li);
+
+        // Clear input
+        declarationInput.value = "";
+
+        // Add delete functionality
+        li.querySelector(".delete-btn").addEventListener("click", () => {
+            li.remove();
+        });
+        });
+
+        // Allow deleting existing ones
+        document.querySelectorAll(".delete-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.target.parentElement.remove();
+        });
+        });
+
+
+
+    // 🔍 Search Filter
+    const searchInput = document.getElementById('searchInput');
+    const studentTable = document.getElementById('studentTable');
+
+    searchInput.addEventListener('keyup', function() {
+      const filter = this.value.toLowerCase();
+      const rows = studentTable.getElementsByTagName('tr');
+      for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let found = false;
+        for (let j = 0; j < cells.length; j++) {
+          if (cells[j].textContent.toLowerCase().includes(filter)) {
+            found = true;
+            break;
+          }
+        }
+        rows[i].style.display = found ? '' : 'none';
+      }
+    });
+  </script>
+</body>
+</html>
